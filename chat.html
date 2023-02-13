@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>Dokan Chatbot</title>
+		<style>
+			.chat-window {
+				height: 500px;
+				width: 400px;
+				border: 1px solid black;
+				overflow-y: scroll;
+				padding: 10px;
+			}
+			.chat-message {
+				margin-bottom: 10px;
+			}
+			#chat-input {
+				padding: 5px;
+				width: 85%;
+				box-sizing: border-box;
+				margin-top: 8px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="chat-window">
+			<div id="chat-log"></div>
+			<form autocomplete="off" id="chat-form">
+				<input type="text" id="chat-input" />
+				<button type="submit">Send</button>
+			</form>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			const API_URL = 'http://localhost:5005/webhooks/rest/webhook';
+			const chatLog = $('#chat-log');
+			const chatForm = $('#chat-form');
+			const chatInput = $('#chat-input');
+
+			chatForm.on('submit', function (event) {
+				event.preventDefault();
+				const message = chatInput.val();
+				chatInput.val('');
+				$.post(API_URL, JSON.stringify({ message }), function (data) {
+					if (data[0]) {
+						const response = data[0].text;
+						chatLog.append(`<div class="chat-message">User: ${message}</div>`);
+						chatLog.append(
+							`<div class="chat-message">Dokan Bot: ${response}</div>`
+						);
+						if (data[0].buttons && data[0].buttons.length) {
+							const btnResponse = data[0].buttons;
+							for (let index = 0; index < btnResponse.length; index++) {
+								const response = btnResponse[index];
+								chatLog.append(
+									`<ul> <li><a href='${response.payload}'>${response.title}</li></ul>`
+								);
+							}
+						}
+					}
+
+					chatLog.scrollTop(chatLog[0].scrollHeight);
+				});
+			});
+		</script>
+	</body>
+</html>
