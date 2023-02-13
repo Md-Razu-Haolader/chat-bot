@@ -1,0 +1,57 @@
+version: "3.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - product_details
+  - purchase_dokan
+  - dokan_saas_details
+  - dokan_plugin_details
+
+responses:
+  utter_greet:
+  - text: "Hey! How can I help you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_product_details:
+  - text: "We are basically a wordpress and SaaS based company, you can get all info from our website: https://wedevs.com/products/"
+  
+  utter_purchase_dokan:
+  - text: "We have WordPress and SaaS based solutions, you can check details from here"
+    buttons:
+      - title: "Dokan SaaS"
+        # payload: "https://dokan.co/" 
+        payload: "/dokan_saas_details"
+      - title: "Dokan WordPress Plugin"
+        # payload: "https://wedevs.com/dokan/pricing/" 
+        payload: "/dokan_plugin_details"
+
+  utter_dokan_saas_details:
+  - text: "https://dokan.co/"  
+
+  utter_dokan_plugin_details:
+  - text: "https://wedevs.com/dokan/pricing/"    
+    
+  utter_iamabot:
+  - text: "I am a bot, powered by Dokan."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
